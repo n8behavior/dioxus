@@ -14,7 +14,7 @@ use crossterm::{
 };
 use ratatui::{
     prelude::*,
-    widgets::{Block, BorderType, Borders, LineGauge, Paragraph},
+    widgets::{Block, BorderType, Borders, LineGauge, Paragraph, Wrap},
     TerminalOptions, Viewport,
 };
 use std::{
@@ -30,7 +30,7 @@ use super::AppServer;
 
 const TICK_RATE_MS: u64 = 100;
 const VIEWPORT_MAX_WIDTH: u16 = 100;
-const VIEWPORT_HEIGHT_SMALL: u16 = 5;
+const VIEWPORT_HEIGHT_SMALL: u16 = 6;
 const VIEWPORT_HEIGHT_BIG: u16 = 13;
 
 /// The TUI that drives the console output.
@@ -632,7 +632,7 @@ impl Output {
         let [current_platform, app_features, serve_address]: [_; 3] = Layout::vertical([
             Constraint::Length(1),
             Constraint::Length(1),
-            Constraint::Length(1),
+            Constraint::Fill(1),
         ])
         .areas(area);
 
@@ -666,7 +666,8 @@ impl Output {
                     "ServerFns at: ".gray()
                 },
                 address,
-            ])),
+            ]))
+            .wrap(Wrap { trim: false }),
             serve_address,
         );
     }
